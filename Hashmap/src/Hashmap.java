@@ -1,9 +1,24 @@
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 
 public class Hashmap {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		//get a filename
+		System.out.println((System.getProperty("user.dir") + File.separatorChar + "mybooks.txt"));
+		String filename = (System.getProperty("user.dir") + File.separatorChar + "mybooks.txt");
+		
 		
 		// Creating HashMap
 		HashMap<Integer, String> myMap = new HashMap<Integer, String>();
@@ -26,8 +41,7 @@ public class Hashmap {
 		int key = 0;
 		String keyvalue = "";
 		String choice = "y";
-		myMap.put(key, keyvalue);
-		
+				
 		// Prompt the User
 		while (choice.equalsIgnoreCase("y"))
 		{
@@ -36,12 +50,14 @@ public class Hashmap {
 			
 			if (myMap.containsKey(number) == true)
 					{
+
 						String value = myMap.get(number);
 						System.out.println("You entered " + value + ".");
-						
+
 						System.out.println("Would you like to try again? Y/N");
 						choice = sc.next();
 						sc.nextLine();
+						
 					}
 			else 
 			{
@@ -64,5 +80,19 @@ public class Hashmap {
 				
 			}
 		}
+		
+		PrintWriter writer = null;
+		writer = new PrintWriter (new File(filename));
+		
+		Iterator it = myMap.entrySet().iterator();
+		while(it.hasNext())
+		{
+			Map.Entry pair = (Map.Entry)it.next();
+			writer.println(pair.getKey() + " = " + pair.getValue());
+	        it.remove();
+		}
+		writer.close();
+
+		
 	}
 }
